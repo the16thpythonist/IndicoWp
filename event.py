@@ -87,7 +87,31 @@ class Event:
     :ivar event_creator: EventCreator containing the creator name, id and affiliation
     """
     def __init__(self, event_description, event_location, event_time, event_creator):
-        self.event_description = event_description
-        self.event_location = event_location
-        self.event_time = event_time
-        self.event_creator = event_creator
+        self.event_description = event_description  # type: EventDescription
+        self.event_location = event_location  # type: EventLocation
+        self.event_time = event_time  # type: EventTime
+        self.creator = event_creator  # type: EventCreator
+
+    @property
+    def description(self):
+        return self.event_description.description
+
+    @property
+    def type(self):
+        return self.event_description.type
+
+    @property
+    def title(self):
+        return self.event_description.title
+
+    @property
+    def location(self):
+        return self.event_location.location
+
+    @property
+    def address(self):
+        return self.event_location.address
+
+    @property
+    def datetime(self):
+        return self.event_time.datetime
