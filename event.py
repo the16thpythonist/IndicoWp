@@ -1,3 +1,4 @@
+import datetime
 
 
 class EventLocation:
@@ -45,4 +46,30 @@ class EventDescription:
         self.type = event_type
 
 
+class EventTime:
+    """
+    Parameter object, that represents the time of an event, including the date and time it is supposed to take place
 
+    :ivar time: The string time of the event. Has to have the format:
+        "hour:minutes:seconds"
+    :ivar date: The string date of the event. Has to have the format:
+        "year-month-day"
+    """
+    DATETIME_FORMAT = '%Y-%m-%d %H:%M:%S'
+
+    def __init__(self, time_string, date_string):
+        self.time = time_string,
+        self.date = date_string
+
+    @property
+    def datetime(self):
+        """
+        Creates a new datetime object from the date and time string
+
+        :return: datetime.datetime object for the time and date the event is supposed to take place
+        """
+        # Joining the string of the date and the time, so they match the format and can be converted to te datetime
+        datetime_string = '{} {}'.format(self.date, self.time)
+
+        datetime_object = datetime.datetime.strptime(datetime_string, self.DATETIME_FORMAT)
+        return datetime_object
