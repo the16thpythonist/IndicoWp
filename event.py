@@ -73,3 +73,21 @@ class EventTime:
 
         datetime_object = datetime.datetime.strptime(datetime_string, self.DATETIME_FORMAT)
         return datetime_object
+
+
+class Event:
+    """
+    The data model for representing a Event of the indico website.
+    It contains info about the description, type and title of the event, the location and address, the time it
+    is supposed to take place and the event creator
+
+    :ivar event_description: EventDescription object, containing the title, type and descritpion
+    :ivar event_location: EventLocation containing the location name and the address
+    :ivar event_time: EventTime containing starting time and date
+    :ivar event_creator: EventCreator containing the creator name, id and affiliation
+    """
+    def __init__(self, event_description, event_location, event_time, event_creator):
+        self.event_description = event_description
+        self.event_location = event_location
+        self.event_time = event_time
+        self.event_creator = event_creator
