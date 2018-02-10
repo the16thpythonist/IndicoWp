@@ -42,7 +42,7 @@ class EventDescription:
     """
     def __init__(self, title, description, event_type):
         self.title = title
-        self.description = description,
+        self.description = description
         self.type = event_type
 
 
@@ -58,7 +58,7 @@ class EventTime:
     DATETIME_FORMAT = '%Y-%m-%d %H:%M:%S'
 
     def __init__(self, time_string, date_string):
-        self.time = time_string,
+        self.time = time_string
         self.date = date_string
 
     @property
