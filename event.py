@@ -11,3 +11,18 @@ class EventLocation:
     def __init__(self, location, address):
         self.location = location
         self.address = address
+
+
+class EventCreator:
+    """
+    Parameter object, that represents the location of an Event and contains the information about the author of the
+    Event on the indico platform, which includes the id, first and last name.
+
+    :ivar id: The string id of the author
+    :ivar first_name: The string first name of the author
+    :ivar last_name: The string last name of the author
+    """
+    def __init__(self, indico_id, first_name, last_name):
+        self.id = indico_id
+        self.first_name = first_name
+        self.last_name = last_name
