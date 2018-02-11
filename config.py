@@ -19,28 +19,30 @@ class Config:
     _instance = None
     _path = None
 
-    def get_instance(self):
+    @staticmethod
+    def get_instance():
         """
         Returns the instance of the config file, that is saved in the singleton.
 
         :return: The configparser.ConfigParser object for this projects config file
         """
-        if self._instance is None:
-            self._create_instance()
+        if Config._instance is None:
+            Config._create_instance()
 
-        return self._instance
+        return Config._instance
 
-    def _create_instance(self):
+    @staticmethod
+    def _create_instance():
         """
         Actually creates the config parser upon first call of the get_instance method by reading the 'config.ini' file
         in the project folder.
 
         :return: void
         """
-        self._path = pathlib.Path(PATH) / 'config.ini'
+        Config._path = pathlib.Path(PATH) / 'config.ini'
 
-        self._instance = configparser.ConfigParser()
-        self._instance.read(str(self._path))
+        Config._instance = configparser.ConfigParser()
+        Config._instance.read(str(Config._path))
 
 
 class LoggingController:
