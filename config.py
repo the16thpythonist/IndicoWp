@@ -1,10 +1,46 @@
 import logging
+import configparser
 import datetime
 import pathlib
 import os
 
 # The path to the IndicoWp main folder, that contains all the modules
 PATH = os.path.dirname(os.path.realpath(__file__))
+
+
+class Config:
+    """
+    The static class, which acts as access point to the config parser object of this project.
+    The config file read is the 'config.ini' in the main project folder.
+
+    :cvar _instance: The static field containing the actual instance of the config parser
+    :cvar _path: The pathlib.Path object pointing to the path of the config file
+    """
+    _instance = None
+    _path = None
+
+    def get_instance(self):
+        """
+        Returns the instance of the config file, that is saved in the singleton.
+
+        :return: The configparser.ConfigParser object for this projects config file
+        """
+        if self._instance is None:
+            self._create_instance()
+
+        return self._instance
+
+    def _create_instance(self):
+        """
+        Actually creates the config parser upon first call of the get_instance method by reading the 'config.ini' file
+        in the project folder.
+
+        :return: void
+        """
+        self._path = pathlib.Path(PATH) / 'config.ini'
+
+        self._instance = configparser.ConfigParser()
+        self._instance.read(str(self._path))
 
 
 class LoggingController:
