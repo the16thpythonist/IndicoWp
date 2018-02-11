@@ -34,4 +34,3 @@ class IndicoEventRequestController:
         response_dict = json.loads(response.text)
 
 
-class 
