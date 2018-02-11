@@ -39,7 +39,8 @@ class LoggingController:
     def path_string(self):
         """
         Returns the string path to the currently handled log file
-        :return:
+
+        :return: string
         """
         return str(self.path)
 
