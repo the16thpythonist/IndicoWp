@@ -53,20 +53,37 @@ class IndicoEventRequestController:
 
 
 class IndicoEventProcessor:
-
+    """
+    :ivar dict: The dict object containing the info about the event, that is being processed by the object at a given
+        moment in time. Is being changed with each new event to process
+    :ivar logger: The logger for IndicoProcessing
+    :cvar _DEBUG_STRING_CHARACTER_COUNT: In case a item is missing in the processed dict a log entry is being made and
+        to identify to which event the log message belonged, a string of the dict that is processed is being appended
+        this variable specifies how many characters to use of that string
+    """
     _DEBUG_STRING_CHARACTER_COUNT = 30
 
     def __init__(self):
         self.dict = None
-        self.id = None
         self.logger = logging.getLogger('IndicoProcessing')
 
     def process(self, event_dict):
+        """
+        Processes the given event dict into a event.Event object and returns that
+
+        :param event_dict: The dict structure, that contains the event data
+        :return: Event
+        """
         self.dict = event_dict
 
         return self._event()
 
     def _event(self):
+        """
+        Creates the actual Event object from all the parameter objects
+
+        :return: Event
+        """
         return event.Event(
             self._event_description(),
             self._event_location(),
@@ -75,6 +92,11 @@ class IndicoEventProcessor:
         )
 
     def _event_description(self):
+        """
+        Creates the EventDescription from the currently processed dict
+
+        :return: EventDescription
+        """
         description = self._query_dict('description', '')
         title = self._query_dict('title', '')
         event_type = self._query_dict('type', '')
@@ -83,6 +105,11 @@ class IndicoEventProcessor:
         return event_description
 
     def _event_creator(self):
+        """
+        Created the EventCreator from the currently processed dict
+
+        :return: EventCreator
+        """
         creator_full_name = self._query_dict('creator/fullName', '')
         if not creator_full_name == '':
             creator_name_split = creator_full_name.split(',')
@@ -98,6 +125,11 @@ class IndicoEventProcessor:
         return event_creator
 
     def _event_time(self):
+        """
+        Created the EventTime object from the currently processed dict
+
+        :return: EventTime
+        """
         date = self._query_dict('startDate/date', '')
         time = self._query_dict('startDate/time', '')
 
@@ -105,6 +137,11 @@ class IndicoEventProcessor:
         return event_time
 
     def _event_location(self):
+        """
+        Created the EventLocation object from the dict.
+
+        :return: EventLocation
+        """
         location = self._query_dict('location', None)
         address = self._query_dict('address', None)
 
@@ -112,6 +149,16 @@ class IndicoEventProcessor:
         return event_location
 
     def _query_dict(self, dict_query, default):
+        """
+        Uses a single string to perform a possibly multi layer get from the currently processed string. The keys for
+        the dict structures have to be separated by '/' to indicate, that they are intended for the next layer.
+        A default value has to be given in case the query fails.
+        If the query fails a debug entry is added to the log file.
+
+        :param dict_query: The string query for the dict
+        :param default: The default value to be returned in case the query fails
+        :return: The value in the deepest dict layer queried
+        """
         try:
             keys = dict_query.split('/')
             current_dict = self.dict
@@ -129,7 +176,16 @@ class IndicoEventProcessor:
 
     @property
     def _debug_string(self):
+        """
+        The first few character of a string format of the dict currently processed for recognition in debugging the
+        log files.
+        The exact amount of characters that is used can be set by the static class variable
+        '_DEBUG_STRING_CHARACTER_COUNT'
+
+        :return: The string of the dict
+        """
         dict_string = str(self.dict)
         # Only taking the first few characters, the amount specified by the static field
-        dict_string = dict_string[self._DEBUG_STRING_CHARACTER_COUNT:]
+        if len(dict_string) > self._DEBUG_STRING_CHARACTER_COUNT:
+            dict_string = dict_string[self._DEBUG_STRING_CHARACTER_COUNT:]
         return dict_string
