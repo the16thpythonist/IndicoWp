@@ -11,7 +11,14 @@ import urllib.parse as urlparse
 
 
 class IndicoEventRequestController:
-
+    """
+    :ivar config: The config parser object for the project
+    :ivar logger: The logger for 'IndicoRequest'
+    :ivar base_url: The url of the indico website which is to be used for the program
+    :ivar api_key: The api key to be used to identify the requests to the api of the site
+    :ivar processor: The IndicoEventProcessor, that turns the dict structures containing the infos about the events
+        into the Event objects
+    """
     def __init__(self):
         self.config = config.Config.get_instance()
         self.logger = logging.getLogger('IndicoRequest')
@@ -22,6 +29,12 @@ class IndicoEventRequestController:
         self.processor = IndicoEventProcessor()
 
     def get_category_events(self, category_id):
+        """
+        A list of Event objects for each event in the category given by its id.
+
+        :param category_id: The id of the indico category for which to get the events
+        :return: [event.Event]
+        """
         response_dict = self.request_category(category_id)
 
         event_dict_list = response_dict['results']
@@ -33,7 +46,12 @@ class IndicoEventRequestController:
         return event_list
 
     def request_category(self, category_id):
+        """
+        Sends a request for the given category id and returns the json decoded dict structure of the response
 
+        :param category_id: The id of the indico category for which to get the events
+        :return: dict
+        """
         # Assembling the part of the url, that uses the category id
         category_string = '/categ/{}.json'.format(category_id)
 
