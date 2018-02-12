@@ -66,8 +66,8 @@ class LoggingController:
     def __init__(self):
 
         # The name of the folder which will contain the log files
-        # TODO: Make this a part of the config.ini file
-        self.logging_folder = 'logging'
+        self.config = Config.get_instance()
+        self.logging_folder = self.config['LOGGING']['folder']
         self.log_name = self._create_log_name()
 
         # The path object pointing to the folder with the logs

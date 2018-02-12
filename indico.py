@@ -24,7 +24,7 @@ class IndicoEventRequestController:
         self.logger = logging.getLogger('IndicoRequest')
 
         self.base_url = self.config['INDICO']['url']
-        self.api_key = self.config['INDICO']['api-key']
+        self.api_key = self.config['INDICO']['key']
 
         self.processor = IndicoEventProcessor()
 
@@ -65,7 +65,7 @@ class IndicoEventRequestController:
             urlparse.urlencode(url_query)
         )
 
-        response = requests.request(url)
+        response = requests.get(url)
         response_dict = json.loads(response.text)
         return response_dict
 
@@ -137,7 +137,7 @@ class IndicoEventProcessor:
             creator_first_name = ''
             creator_last_name = ''
         creator_id = int(self._query_dict('creator/id', 0))
-        creator_affiliation = self._query_dict('creator/affiliation')
+        creator_affiliation = self._query_dict('creator/affiliation', '')
 
         event_creator = event.EventCreator(creator_id, creator_first_name, creator_last_name, creator_affiliation)
         return event_creator

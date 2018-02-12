@@ -1,4 +1,4 @@
-from IndicoWp.config import PATH, LoggingController
+from IndicoWp.config import PATH, LoggingController, Config
 
 import pathlib
 import shutil
@@ -6,11 +6,15 @@ import shutil
 import pytest
 
 
-@pytest.fixture()
+@pytest.fixture(scope='session')
 def log_folder(request):
     # Creating log folder
-    log_folder = 'logging'
+    log_folder = 'logging_tests'
     log_path = pathlib.Path(PATH) / log_folder
+
+    # Now we need to replace the value that specifies the logging folder in the config file
+    config = Config.get_instance()
+    config['LOGGING']['folder'] = log_folder
 
     if not log_path.is_dir():
         log_path.mkdir()
