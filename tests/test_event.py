@@ -1,4 +1,4 @@
-from IndicoWp.event import EventCreator, EventTime, EventLocation, EventDescription, Event
+from IndicoWp.indico.event import EventCreator, EventTime, EventLocation, EventDescription, Event
 
 import pytest
 

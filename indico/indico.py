@@ -1,5 +1,5 @@
 import IndicoWp.config as config
-import IndicoWp.event as event
+import IndicoWp.indico.event as event
 import logging
 
 import requests

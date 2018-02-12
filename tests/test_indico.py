@@ -1,5 +1,5 @@
 from IndicoWp.indico import IndicoEventRequestController, IndicoEventProcessor
-from IndicoWp.event import Event
+from IndicoWp.indico.event import Event
 
 import pytest
 
