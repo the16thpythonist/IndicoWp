@@ -87,6 +87,9 @@ class SimpleEventsTableView:
 
         self.max_length = max_length
 
+    def __str__(self):
+        return self.get_string()
+
     def get_string(self):
         """
         The actual view string
@@ -105,8 +108,7 @@ class SimpleEventsTableView:
         :return: [[string]]: A "matrix" structure of strings to display in the table
         """
         table_list = []
-        for event in self.events:
-            self.event = event
+        for self.event in self.events:
             rows = self._event_rows()
             table_list.append(rows)
         return table_list

@@ -86,7 +86,8 @@ class Event:
     :ivar event_time: EventTime containing starting time and date
     :ivar event_creator: EventCreator containing the creator name, id and affiliation
     """
-    def __init__(self, event_description, event_location, event_time, event_creator):
+    def __init__(self, indico_id, event_description, event_location, event_time, event_creator):
+        self.id = indico_id  # type: int
         self.event_description = event_description  # type: EventDescription
         self.event_location = event_location  # type: EventLocation
         self.event_time = event_time  # type: EventTime

@@ -103,11 +103,20 @@ class IndicoEventProcessor:
         :return: Event
         """
         return event.Event(
+            self._event_id(),
             self._event_description(),
             self._event_location(),
             self._event_time(),
             self._event_creator()
         )
+
+    def _event_id(self):
+        """
+        The indico id for the event
+
+        :return: the int id
+        """
+        return int(self._query_dict('id', 0))
 
     def _event_description(self):
         """
