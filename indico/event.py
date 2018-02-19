@@ -86,11 +86,12 @@ class IndicoEvent:
     :ivar event_time: EventTime containing starting time and date
     :ivar event_creator: EventCreator containing the creator name, id and affiliation
     """
-    def __init__(self, indico_id, event_description, event_location, event_time, event_creator):
+    def __init__(self, indico_id, event_description, event_location, event_time, event_creator, creation_time):
         self.id = indico_id  # type: int
         self.event_description = event_description  # type: EventDescription
         self.event_location = event_location  # type: EventLocation
         self.event_time = event_time  # type: EventTime
+        self.creation_time = creation_time  # type: EventTime
         self.creator = event_creator  # type: EventCreator
 
     @property
@@ -116,3 +117,18 @@ class IndicoEvent:
     @property
     def datetime(self):
         return self.event_time.datetime
+
+    @property
+    def created(self):
+        return self.creation_time.datetime
+
+    def copy(self):
+        event = IndicoEvent(
+            self.id,
+            self.event_description,
+            self.event_location,
+            self.event_time,
+            self.creator,
+            self.creation_time
+        )
+        return event

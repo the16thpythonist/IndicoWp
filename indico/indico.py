@@ -107,7 +107,8 @@ class IndicoEventProcessor:
             self._event_description(),
             self._event_location(),
             self._event_time(),
-            self._event_creator()
+            self._event_creator(),
+            self._creation_time()
         )
 
     def _event_id(self):
@@ -159,6 +160,14 @@ class IndicoEventProcessor:
         """
         date = self._query_dict('startDate/date', '')
         time = self._query_dict('startDate/time', '')
+
+        event_time = event.EventTime(time, date)
+        return event_time
+
+    def _creation_time(self):
+        date = self._query_dict('creationDate/date', '')
+        time = self._query_dict('creationDate/time', '')
+        time = time[:time.find('.')]
 
         event_time = event.EventTime(time, date)
         return event_time

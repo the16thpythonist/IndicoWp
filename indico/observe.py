@@ -20,3 +20,6 @@ class IndicoObservationController:
     def _load_observed_categories(self):
         for category in self.observe.keys():
             self.observed_categories.append(category)
+
+    def all(self):
+        return self.observed_categories
