@@ -102,7 +102,7 @@ class IndicoEventProcessor:
 
         :return: Event
         """
-        return event.Event(
+        return event.IndicoEvent(
             self._event_id(),
             self._event_description(),
             self._event_location(),

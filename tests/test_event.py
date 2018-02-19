@@ -1,4 +1,4 @@
-from IndicoWp.indico.event import EventCreator, EventTime, EventLocation, EventDescription, Event
+from IndicoWp.indico.event import EventCreator, EventTime, EventLocation, EventDescription, IndicoEvent
 
 import pytest
 
@@ -14,7 +14,7 @@ def event(request):
     # Creating default Location
     event_location = EventLocation('KIT', 'Karlsruhe')
 
-    event = Event(event_description, event_location, event_time, event_creator)
+    event = IndicoEvent(event_description, event_location, event_time, event_creator)
     return event
 
 

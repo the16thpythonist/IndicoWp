@@ -1,5 +1,5 @@
 from IndicoWp.indico import IndicoEventRequestController, IndicoEventProcessor
-from IndicoWp.indico.event import Event
+from IndicoWp.indico.event import IndicoEvent
 
 import pytest
 
@@ -38,7 +38,7 @@ def event_requester(request):
 
 
 def test_indico_event_processing_basic(event_dict_basic, event_processor):
-    event = event_processor.process(event_dict_basic)  # type: Event
+    event = event_processor.process(event_dict_basic)  # type: IndicoEvent
 
     assert event.creator.first_name == 'max'
     assert event.creator.last_name == 'mustermann'
@@ -58,4 +58,4 @@ def test_indico_category_request_basic(event_requester):
     event_list = event_requester.get_category_events(384)
     assert isinstance(event_list, list)
     assert len(event_list) >= 1
-    assert isinstance(event_list[0], Event)
+    assert isinstance(event_list[0], IndicoEvent)

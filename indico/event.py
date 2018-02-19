@@ -75,7 +75,7 @@ class EventTime:
         return datetime_object
 
 
-class Event:
+class IndicoEvent:
     """
     The data model for representing a Event of the indico website.
     It contains info about the description, type and title of the event, the location and address, the time it
