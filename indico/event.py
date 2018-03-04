@@ -75,6 +75,13 @@ class EventTime:
         return datetime_object
 
 
+class EventMeta:
+
+    def __init__(self, url, creation_time):
+        self.url = url
+        self.creation_time = creation_time
+
+
 class IndicoEvent:
     """
     The data model for representing a Event of the indico website.
@@ -86,13 +93,21 @@ class IndicoEvent:
     :ivar event_time: EventTime containing starting time and date
     :ivar event_creator: EventCreator containing the creator name, id and affiliation
     """
-    def __init__(self, indico_id, event_description, event_location, event_time, event_creator, creation_time):
+    def __init__(self, indico_id, event_description, event_location, event_time, event_creator, event_meta):
         self.id = indico_id  # type: int
         self.event_description = event_description  # type: EventDescription
         self.event_location = event_location  # type: EventLocation
         self.event_time = event_time  # type: EventTime
-        self.creation_time = creation_time  # type: EventTime
         self.creator = event_creator  # type: EventCreator
+        self.event_meta = event_meta  # type: EventMeta
+
+    @property
+    def url(self):
+        return self.event_meta.url  # type: str
+
+    @property
+    def creation_time(self):
+        return self.event_meta.creation_time  # type: EventTime
 
     @property
     def description(self):

@@ -1,7 +1,9 @@
 from IndicoWp.config import Config, PATH
+
 import logging
 import pathlib
 import configparser
+import json
 
 
 class IndicoObservationController:
@@ -14,12 +16,42 @@ class IndicoObservationController:
         self.observe = configparser.ConfigParser()
         self.observe.read(str(self.path))
 
-        self.observed_categories = []
+        self.dict = {}
         self._load_observed_categories()
 
     def _load_observed_categories(self):
-        for category in self.observe.keys():
-            self.observed_categories.append(category)
+        for name in self.observe.keys():
+            if name == 'DEFAULT':
+                continue
 
-    def all(self):
-        return self.observed_categories
+            _dict = self.observe[name]
+            url = _dict['url']
+            key = _dict['key']
+            category_list = json.loads(_dict['categories'])
+
+            observation = IndicoObservation(
+                name,
+                category_list,
+                url,
+                key
+            )
+
+            self.dict[name] = observation
+
+    def __getitem__(self, item):
+        return self.dict[item]
+
+    def keys(self):
+        return self.dict.keys()
+
+    def values(self):
+        return self.dict.values()
+
+
+class IndicoObservation:
+
+    def __init__(self, name, category_list, url, key):
+        self.name = name
+        self.categories = category_list
+        self.url = url
+        self.key = key

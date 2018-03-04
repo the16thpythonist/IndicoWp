@@ -9,7 +9,6 @@ import pathlib
 class IndicoEventWordpressPostView:
 
     DATETIME_FORMAT = '%A, %d %B %Y at %M:%M'
-    URL = Config.get_instance()['INDICO']['url'].replace('/export', '')
 
     def __init__(self, event):
         self.event = event  # type: IndicoEvent
@@ -46,8 +45,4 @@ class IndicoEventWordpressPostView:
         return self.event.datetime.strftime(self.DATETIME_FORMAT)
 
     def _indico_link(self):
-        link_string = '{}/event/{}'.format(
-            self.URL,
-            self.event.id
-        )
-        return link_string
+        return self.event.url

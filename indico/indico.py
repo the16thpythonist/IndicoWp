@@ -23,10 +23,20 @@ class IndicoEventRequestController:
         self.config = config.Config.get_instance()
         self.logger = logging.getLogger('IndicoRequest')
 
-        self.base_url = self.config['INDICO']['url']
-        self.api_key = self.config['INDICO']['key']
+        self.base_url = None
+        self.api_key = None
 
         self.processor = IndicoEventProcessor()
+
+    def set(self, observation):
+        self.base_url = observation.url
+        self.api_key = observation.key
+
+    def set_url(self, base_url):
+        self.base_url = base_url
+
+    def set_key(self, key):
+        self.api_key = key
 
     def get_category_events(self, category_id):
         """
@@ -35,6 +45,9 @@ class IndicoEventRequestController:
         :param category_id: The id of the indico category for which to get the events
         :return: [event.Event]
         """
+        if self.base_url is None:
+            raise ValueError('no base url set for IndicoEventRequestController')
+
         response_dict = self.request_category(category_id)
 
         event_dict_list = response_dict['results']
@@ -64,6 +77,8 @@ class IndicoEventRequestController:
             category_string,
             urlparse.urlencode(url_query)
         )
+
+        print(url)
 
         response = requests.get(url)
         response_dict = json.loads(response.text)
@@ -108,7 +123,7 @@ class IndicoEventProcessor:
             self._event_location(),
             self._event_time(),
             self._event_creator(),
-            self._creation_time()
+            self._event_meta()
         )
 
     def _event_id(self):
@@ -167,10 +182,18 @@ class IndicoEventProcessor:
     def _creation_time(self):
         date = self._query_dict('creationDate/date', '')
         time = self._query_dict('creationDate/time', '')
-        time = time[:time.find('.')]
+        if '.' in time:
+            time = time[:time.find('.')]
 
         event_time = event.EventTime(time, date)
         return event_time
+
+    def _event_meta(self):
+        creation_time = self._creation_time()
+        url = self._query_dict('url', '')
+
+        event_meta = event.EventMeta(url, creation_time)
+        return event_meta
 
     def _event_location(self):
         """
