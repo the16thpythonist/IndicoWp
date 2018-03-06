@@ -1,4 +1,4 @@
-from IndicoWp.config import Config, PATH
+from IndicoWp.config import Config, PATH, PROJECT_PATH
 
 import logging
 import pathlib
@@ -12,7 +12,7 @@ class IndicoObservationController:
         self.config = Config.get_instance()
         self.logger = logging.getLogger()
 
-        self.path = pathlib.Path(PATH) / self.config['INDICO']['observe']
+        self.path = pathlib.Path(PROJECT_PATH) / self.config['INDICO']['observe']
         self.observe = configparser.ConfigParser()
         self.observe.read(str(self.path))
 

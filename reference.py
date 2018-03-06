@@ -4,7 +4,7 @@ from sqlalchemy.orm import Session
 
 from IndicoWp.database import MySQLDatabaseAccess
 
-from IndicoWp.config import Config, PATH
+from IndicoWp.config import Config, PROJECT_PATH
 
 import logging
 import pathlib
@@ -56,7 +56,7 @@ class IDManager:
         self.config = Config.get_instance()
         self.logger = logging.getLogger('IdManagement')
 
-        self.path = pathlib.Path(PATH) / self.config['LOGGING']['ids']
+        self.path = pathlib.Path(PROJECT_PATH) / self.config['LOGGING']['ids']
 
         self.counter = None
         self.used = None

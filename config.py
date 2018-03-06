@@ -6,6 +6,8 @@ import os
 
 # The path to the IndicoWp main folder, that contains all the modules
 PATH = os.path.dirname(os.path.realpath(__file__))
+VERSION = '0.1.0.14'
+PROJECT_PATH = ''
 
 
 class Config:
@@ -39,7 +41,7 @@ class Config:
 
         :return: void
         """
-        Config._path = pathlib.Path(PATH) / 'config.ini'
+        Config._path = pathlib.Path(PROJECT_PATH) / 'config.ini'
 
         Config._instance = configparser.ConfigParser()
         Config._instance.read(str(Config._path))
@@ -71,7 +73,7 @@ class LoggingController:
         self.log_name = self._create_log_name()
 
         # The path object pointing to the folder with the logs
-        self.path = pathlib.Path(PATH) / self.logging_folder / self.log_name
+        self.path = pathlib.Path(PROJECT_PATH) / self.logging_folder / self.log_name
 
     @property
     def path_string(self):
